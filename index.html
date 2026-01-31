@@ -19,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        /* GİRİŞ EKRANI */
         #login-overlay {
             position: fixed;
             top: 0;
@@ -42,8 +41,6 @@
             width: 320px;
         }
 
-        h2 { color: #e91e63; margin-bottom: 20px; font-family: sans-serif; font-size: 1.5em; }
-
         input {
             width: 100%;
             padding: 15px;
@@ -65,13 +62,8 @@
             width: 100%;
             font-weight: bold;
             font-size: 16px;
-            margin-top: 10px;
-            transition: 0.3s;
         }
 
-        .login-btn:hover { background: #c2185b; }
-
-        /* ANA İÇERİK */
         #main-content {
             display: none;
             opacity: 0;
@@ -79,23 +71,22 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
+            padding: 20px 0;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.92);
-            padding: 50px 30px;
+            padding: 40px 20px;
             border-radius: 40px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             max-width: 550px;
-            width: 85%;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            width: 90%;
         }
 
         .heart {
             color: #e91e63;
-            font-size: 60px;
+            font-size: 50px;
             animation: pulse 1.5s infinite;
-            margin-bottom: 10px;
         }
 
         @keyframes pulse {
@@ -106,28 +97,24 @@
 
         .poem {
             font-style: italic;
-            font-size: 1.25em;
-            line-height: 1.8;
-            margin: 25px 0;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin: 20px 0;
             color: #880e4f;
             white-space: pre-line;
         }
 
         .timer {
-            margin-top: 30px;
-            padding: 15px 25px;
+            margin-top: 20px;
+            padding: 12px 20px;
             background: #f06292;
             color: white;
             border-radius: 50px;
             font-weight: bold;
             display: inline-block;
-            box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
         }
 
-        #player-container {
-            position: absolute;
-            top: -5000px;
-        }
+        #player-container { position: absolute; top: -5000px; }
     </style>
 </head>
 <body>
@@ -145,7 +132,7 @@
     <div id="main-content">
         <div class="container">
             <div class="heart">❤️</div>
-            <h1>İyi Ki Benimlesin</h1>
+            <h3>İyi Ki Benimlesin</h3>
 
             <div class="poem">
                 Seni özlemek istemiyorum ben,
@@ -156,22 +143,35 @@
                 Seni seviyorum,
                 Sebepsiz, zamansız,
                 Bir çiçeğin güneşe yönelişi gibi.
+
+                ---
+
+                Üşüdüm...
+                Senin sevgin ısıttı beni.
+                Özledim....
+                Hayalin diriltti beni.
+                Sustum...
+                Adın söyletti beni.
+                Ağladım...
+                Aşkın mutlu etti beni.
+
+                ---
+
+                Gelirim dersen..
+                Ben koşarım.
+                Konuşurum dersen...
+                Ben haykırırım.
+                Çünkü sen...
+                Sen aşksın.
             </div>
 
-            <div class="timer" id="timer">Hesaplanıyor...</div>
-            
-            <p style="margin-top: 30px; font-size: 0.8em; opacity: 0.6;">
-                Daima Seninle...
-            </p>
+            <div class="timer" id="timer">Yükleniyor...</div>
         </div>
     </div>
 
-    <div id="player-container">
-        <div id="player"></div>
-    </div>
+    <div id="player-container"><div id="player"></div></div>
 
     <script>
-        // 1. YouTube API Ayarları
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -182,72 +182,40 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0',
-                width: '0',
-                videoId: 'VjEz4yX5nr8', // Reyna - Gönül
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'modestbranding': 1,
-                    'loop': 1,
-                    'playlist': 'VjEz4yX5nr8'
-                },
-                events: {
-                    'onReady': function() { isPlayerReady = true; }
-                }
+                height: '0', width: '0',
+                videoId: 'VjEz4yX5nr8',
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'VjEz4yX5nr8' },
+                events: { 'onReady': function() { isPlayerReady = true; } }
             });
         }
 
-        // 2. Giriş Kontrolü ve Müzik Başlatma
         function unlockAndPlay() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
-            
             if (user === "minoşum" && pass === "071225") {
-                // Şarkıyı tetikle
-                if (isPlayerReady) {
-                    player.playVideo();
-                } else {
-                    setTimeout(() => { if(player) player.playVideo(); }, 500);
-                }
-
-                // Ekran Geçişi
+                if (isPlayerReady) player.playVideo();
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('main-content').style.display = 'flex';
-                    setTimeout(() => {
-                        document.getElementById('main-content').style.opacity = '1';
-                    }, 100);
+                    setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 100);
                 }, 1000);
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
+            } else { document.getElementById('error-msg').style.display = 'block'; }
         }
 
-        // 3. Sayaç (7 Aralık 2025)
-        const startDate = new Date(2025, 11, 7); // Aralık ayı 11 olarak girilir
-
+        const startDate = new Date(2025, 11, 7); 
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
-
-            if (diff < 0) {
-                document.getElementById('timer').innerHTML = "Büyük güne çok az kaldı ❤️";
-                return;
-            }
-
+            if (diff < 0) { document.getElementById('timer').innerHTML = "Büyük güne çok az kaldı ❤️"; return; }
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const minutes = Math.floor((diff / 1000 / 60) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('timer').innerHTML = 
-                `${days} Gün, ${hours} Saat, ${minutes} Dakikadır Seninim...`;
+            document.getElementById('timer').innerHTML = `${days} Gün, ${hours} Saat, ${minutes} Dakikadır Seninim...`;
         }
-
         setInterval(updateTimer, 1000);
         updateTimer();
     </script>
 </body>
 </html>
+
