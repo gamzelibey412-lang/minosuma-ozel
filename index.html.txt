@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sadece Bizim İçin ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            color: #880e4f;
+            overflow-x: hidden;
+        }
+
+        /* GİRİŞ EKRANI */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f8bbd0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: 1s ease-in-out;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            width: 320px;
+        }
+
+        h2 { color: #e91e63; margin-bottom: 20px; font-family: sans-serif; font-size: 1.5em; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #fce4ec;
+            border-radius: 12px;
+            box-sizing: border-box;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover { background: #c2185b; }
+
+        /* ANA İÇERİK */
+        #main-content {
+            display: none;
+            opacity: 0;
+            transition: 2s;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 50px 30px;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            max-width: 550px;
+            width: 85%;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .heart {
+            color: #e91e63;
+            font-size: 60px;
+            animation: pulse 1.5s infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .poem {
+            font-style: italic;
+            font-size: 1.25em;
+            line-height: 1.8;
+            margin: 25px 0;
+            color: #880e4f;
+            white-space: pre-line;
+        }
+
+        .timer {
+            margin-top: 30px;
+            padding: 15px 25px;
+            background: #f06292;
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+        }
+
+        #player-container {
+            position: absolute;
+            top: -5000px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>Hoş Geldin Minoşum ❤️</h2>
+            <input type="text" id="username" placeholder="Kullanıcı Adı">
+            <input type="password" id="password" placeholder="Şifremiz">
+            <button class="login-btn" onclick="unlockAndPlay()">Giriş Yap ve Başlat</button>
+            <p id="error-msg" style="color: #e91e63; font-size: 0.8em; margin-top: 15px; display: none;">Bilgiler hatalı sevgilim...</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="container">
+            <div class="heart">❤️</div>
+            <h1>İyi Ki Benimlesin</h1>
+
+            <div class="poem">
+                Seni özlemek istemiyorum ben,
+                Ben seni yaşamak istiyorum,
+                Seni her özlediğimde sana bakmak istiyorum
+                Ve seni sende görmek sadece...
+
+                Seni seviyorum,
+                Sebepsiz, zamansız,
+                Bir çiçeğin güneşe yönelişi gibi.
+            </div>
+
+            <div class="timer" id="timer">Hesaplanıyor...</div>
+            
+            <p style="margin-top: 30px; font-size: 0.8em; opacity: 0.6;">
+                Daima Seninle...
+            </p>
+        </div>
+    </div>
+
+    <div id="player-container">
+        <div id="player"></div>
+    </div>
+
+    <script>
+        // 1. YouTube API Ayarları
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        var isPlayerReady = false;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'VjEz4yX5nr8', // Reyna - Gönül
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'loop': 1,
+                    'playlist': 'VjEz4yX5nr8'
+                },
+                events: {
+                    'onReady': function() { isPlayerReady = true; }
+                }
+            });
+        }
+
+        // 2. Giriş Kontrolü ve Müzik Başlatma
+        function unlockAndPlay() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            
+            if (user === "minoşum" && pass === "071225") {
+                // Şarkıyı tetikle
+                if (isPlayerReady) {
+                    player.playVideo();
+                } else {
+                    setTimeout(() => { if(player) player.playVideo(); }, 500);
+                }
+
+                // Ekran Geçişi
+                document.getElementById('login-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-overlay').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'flex';
+                    setTimeout(() => {
+                        document.getElementById('main-content').style.opacity = '1';
+                    }, 100);
+                }, 1000);
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        // 3. Sayaç (7 Aralık 2025)
+        const startDate = new Date(2025, 11, 7); // Aralık ayı 11 olarak girilir
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff < 0) {
+                document.getElementById('timer').innerHTML = "Büyük güne çok az kaldı ❤️";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timer').innerHTML = 
+                `${days} Gün, ${hours} Saat, ${minutes} Dakikadır Seninim...`;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
