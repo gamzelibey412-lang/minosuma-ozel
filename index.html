@@ -19,7 +19,6 @@
             text-shadow: 0 0 8px rgba(255, 23, 68, 0.6);
         }
 
-        /* NEON KALPLER ARKA PLANI */
         .hearts-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -42,7 +41,6 @@
             100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        /* GİRİŞ EKRANI */
         #login-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -77,7 +75,6 @@
             box-shadow: 0 0 15px #ff1744;
         }
 
-        /* ANA İÇERİK */
         #main-content {
             display: none;
             z-index: 10;
@@ -119,7 +116,7 @@
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="unlockAndPlay()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; font-size: 12px; margin-top:10px;">Bilgiler hatalı sevgilim!</p>
+            <p id="error-msg" style="color: #ff1744; display: none; font-size: 12px; margin-top:10px;">Bilgiler hatalı minoşum!</p>
         </div>
     </div>
 
@@ -131,7 +128,6 @@
     <div id="player-container"><div id="player"></div></div>
 
     <script>
-        // Neon Kalp Efekti
         function createHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
@@ -143,7 +139,6 @@
         }
         setInterval(createHeart, 400);
 
-        // YouTube Müzik
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -152,12 +147,11 @@
         var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0', width: '0', videoId: 'VjEz4yX5nr8',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'VjEz4yX5nr8' }
+                height: '0', width: '0', videoId: 'X5EerChfxho',
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': 'X5EerChfxho' }
             });
         }
 
-        // Daktilo Yazısı Sözleri
         const lines = [
             "İyi ki benimlesin...",
             "",
@@ -216,7 +210,6 @@
             }
         }
 
-        // Sayaç
         const startDate = new Date(2025, 11, 7);
         function updateTimer() {
             const now = new Date();
