@@ -19,6 +19,7 @@
             overflow-x: hidden;
         }
 
+        /* GİRİŞ EKRANI */
         #login-overlay {
             position: fixed;
             top: 0;
@@ -41,17 +42,6 @@
             width: 320px;
         }
 
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #fce4ec;
-            border-radius: 12px;
-            box-sizing: border-box;
-            outline: none;
-            font-size: 16px;
-        }
-
         .login-btn {
             background: #e91e63;
             color: white;
@@ -62,8 +52,10 @@
             width: 100%;
             font-weight: bold;
             font-size: 16px;
+            margin-top: 10px;
         }
 
+        /* ANA İÇERİK */
         #main-content {
             display: none;
             opacity: 0;
@@ -71,16 +63,29 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            padding: 20px 0;
+            padding: 40px 0;
         }
 
         .container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 40px 20px;
+            padding: 50px 30px;
             border-radius: 40px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             max-width: 550px;
-            width: 90%;
+            width: 85%;
+        }
+
+        /* SLAYT ANİMASYONU */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.5s ease-out;
+            margin-bottom: 40px;
+        }
+
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .heart {
@@ -97,25 +102,22 @@
 
         .poem {
             font-style: italic;
-            font-size: 1.15em;
-            line-height: 1.7;
-            margin: 20px 0;
+            font-size: 1.2em;
+            line-height: 1.8;
             color: #880e4f;
             white-space: pre-line;
         }
 
         .special-note {
-            font-size: 1.4em;
+            font-size: 1.5em;
             font-weight: bold;
             color: #c2185b;
-            margin-top: 30px;
             font-family: sans-serif;
-            font-style: normal;
+            margin: 40px 0;
         }
 
         .timer {
-            margin-top: 25px;
-            padding: 12px 25px;
+            padding: 15px 25px;
             background: #f06292;
             color: white;
             border-radius: 50px;
@@ -134,16 +136,17 @@
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="unlockAndPlay()">Giriş Yap ve Başlat</button>
-            <p id="error-msg" style="color: #e91e63; font-size: 0.8em; margin-top: 15px; display: none;">Bilgiler hatalı sevgilim...</p>
+            <p id="error-msg" style="color: #e91e63; font-size: 0.8em; margin-top: 15px; display: none;">Hatalı bilgi sevgilim...</p>
         </div>
     </div>
 
     <div id="main-content">
         <div class="container">
-            <div class="heart">❤️</div>
-            <h3>İyi Ki Benimlesin</h3>
+            <div class="heart fade-in-up">❤️</div>
+            
+            <h3 class="fade-in-up">İyi Ki Benimlesin</h3>
 
-            <div class="poem">
+            <div class="poem fade-in-up">
                 Seni özlemek istemiyorum ben,
                 Ben seni yaşamak istiyorum,
                 Seni her özlediğimde sana bakmak istiyorum
@@ -152,9 +155,9 @@
                 Seni seviyorum,
                 Sebepsiz, zamansız,
                 Bir çiçeğin güneşe yönelişi gibi.
+            </div>
 
-                ---
-
+            <div class="poem fade-in-up">
                 Üşüdüm...
                 Senin sevgin ısıttı beni.
                 Özledim....
@@ -163,9 +166,9 @@
                 Adın söyletti beni.
                 Ağladım...
                 Aşkın mutlu etti beni.
+            </div>
 
-                ---
-
+            <div class="poem fade-in-up">
                 Gelirim dersen..
                 Ben koşarım.
                 Konuşurum dersen...
@@ -174,11 +177,11 @@
                 Sen aşksın.
             </div>
 
-            <div class="special-note">
+            <div class="special-note fade-in-up">
                 SENİ SEVİYORUM GÜZEL KIZIM 🫶
             </div>
 
-            <div class="timer" id="timer">Yükleniyor...</div>
+            <div class="timer fade-in-up" id="timer">Yükleniyor...</div>
         </div>
     </div>
 
@@ -207,13 +210,27 @@
             const pass = document.getElementById('password').value;
             if (user === "minoşum" && pass === "071225") {
                 if (isPlayerReady) player.playVideo();
+                
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
                     document.getElementById('main-content').style.display = 'flex';
-                    setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 100);
+                    setTimeout(() => { 
+                        document.getElementById('main-content').style.opacity = '1';
+                        startSlideShow(); // Slayt animasyonunu başlat
+                    }, 100);
                 }, 1000);
             } else { document.getElementById('error-msg').style.display = 'block'; }
+        }
+
+        // Yazıları sırayla gösteren fonksiyon
+        function startSlideShow() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('active');
+                }, index * 1000); // Her yazı arası 1 saniye bekler
+            });
         }
 
         const startDate = new Date(2025, 11, 7); 
@@ -224,7 +241,7 @@
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const minutes = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('timer').innerHTML = `${days} Gün, ${hours} Saat, ${minutes} Dakikadır Seninim...`;
+            document.getElementById('timer').innerHTML = `${days} Gün, ${hours} Saat, ${minutes} Dakikadır Seninleyim...`;
         }
         setInterval(updateTimer, 1000);
         updateTimer();
