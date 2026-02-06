@@ -20,8 +20,7 @@
         }
         .heart-particle {
             position: absolute; color: #ff1744; font-size: 20px;
-            /* Güçlü Neon Efekti */
-            text-shadow: 0 0 5px #ff1744, 0 0 10px #ff1744, 0 0 20px #ff1744; 
+            text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744; 
             animation: fly 6s linear infinite; opacity: 0;
         }
         @keyframes fly {
@@ -39,7 +38,7 @@
         .login-box {
             background: #0a0a0a; padding: 40px; border: 2px solid #ff1744;
             border-radius: 20px; text-align: center; 
-            box-shadow: 0 0 15px #ff1744, inset 0 0 10px #ff1744;
+            box-shadow: 0 0 20px #ff1744;
         }
         input {
             display: block; width: 250px; padding: 12px; margin: 15px 0;
@@ -48,24 +47,16 @@
         .login-btn {
             background: #ff1744; color: #000; border: none;
             padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;
-            box-shadow: 0 0 10px #ff1744;
         }
 
-        /* BİRLEŞEN TAM NEON KALP ANİMASYONU */
-        #heart-anim-container {
+        /* YENİ GIF ANİMASYON KONTEYNERI */
+        #gif-container {
             display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s;
             text-align: center;
         }
-        .neon-heart {
-            font-size: 120px; color: #ff1744;
-            /* Ultra Neon Parlama */
-            text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744, 0 0 40px #ff1744, 0 0 60px #ff1744;
-            display: inline-block; animation: merge 3s ease-in-out forwards;
-        }
-        @keyframes merge {
-            0% { transform: translateX(-150px) rotate(-20deg); opacity: 0; }
-            50% { transform: translateX(0) rotate(0deg); opacity: 1; scale(1.3); }
-            100% { transform: scale(1.1); opacity: 1; }
+        #heart-gif {
+            width: 300px; /* Boyutu buradan ayarlayabilirsin */
+            filter: drop-shadow(0 0 15px #ff1744);
         }
 
         /* ANA İÇERİK */
@@ -75,11 +66,12 @@
             max-height: 80vh; overflow-y: auto;
         }
         .typewriter-container { 
-            font-size: 1.1em; line-height: 1.5; color: #ff5252; 
-            text-shadow: 0 0 5px rgba(255, 23, 68, 0.3);
+            font-size: 1.1em; line-height: 1.6; color: #ff5252; 
+            text-shadow: 0 0 5px rgba(255, 23, 68, 0.4);
         }
         .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 10px; }
 
+        /* Müzik çalar gizli */
         #player-container { position: absolute; top: -5000px; left: -5000px; }
     </style>
 </head>
@@ -89,18 +81,17 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Hoş Geldin Minoşum ❤️</h2>
+            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel... ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="unlockAndPlay()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Hatalı bilgi sevgilim!</p>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Şifre yanlış sevgilim!</p>
         </div>
     </div>
 
-    <div id="heart-anim-container">
-        <div class="neon-heart">❤️</div>
-        <div class="neon-heart" style="animation-delay: 0.3s;">❤️</div>
-        <h2 style="margin-top: 30px; color: #fff; text-shadow: 0 0 15px #ff1744;">Bir Elmanın İki Yarısı...</h2>
+    <div id="gif-container">
+        <img src="love-heart.gif" id="heart-gif" alt="Kalp Atışı">
+        <h2 style="margin-top: 20px; color: #fff; text-shadow: 0 0 10px #ff1744;">Sadece Senin İçin Atıyor...</h2>
     </div>
 
     <div id="main-content">
@@ -110,12 +101,12 @@
 
     <div id="player-container">
         <iframe id="music-iframe" width="100" height="100" 
-            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1&autoplay=0" 
+            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1" 
             frameborder="0" allow="autoplay"></iframe>
     </div>
 
     <script>
-        // Arka Plan Neon Kalp Yağmuru
+        // Arka Plan Kalp Yağmuru
         function createHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
@@ -126,33 +117,33 @@
         }
         setInterval(createHeart, 400);
 
+        // Şiirler
         const lines = [
-            "İyi ki benimlesin...", "",
-            "Bedenimin sol köşesine",
-            "Bir dünya kuralım seninle",
-            "İki kalem bir kağıt",
-            "Yazalım bir ömrü seninle",
-            "Ferhat'ın Aslı'sı gibi",
-            "İçinde sen olan",
-            "Bir yol tayin et bana",
-            "Kapısı sana açılan...", "",
-            "---", "",
-            "Aşk sensin",
-            "Çekip gitmiş gençliğimin",
-            "Yazdığım şiirlerin",
-            "En güzel yerindesin",
-            "Yüreğimin tam orta yerinde",
-            "Eşsiz nadide bir çiçeksin",
-            "Sen bensin",
-            "Ben zaten",
-            "Yüreğime düştüğünden beri",
-            "Hep seninleyim", "",
-            "---", "",
+            "Bedenimin sol köşesine,",
+            "Bir dünya kuralım seninle.",
+            "İki kalem bir kağıt,",
+            "Yazalım bir ömrü seninle...",
+            "Ferhat'ın Aslı'sı gibi,",
+            "İçinde sen olan,",
+            "Bir yol tayin et bana,",
+            "Kapısı sana açılan... ❤️",
+            "", "---", "",
+            "Aşk sensin,",
+            "Çekip gitmiş gençliğimin,",
+            "Yazdığım şiirlerin,",
+            "En güzel yerindesin.",
+            "Yüreğimin tam orta yerinde,",
+            "Eşsiz nadide bir çiçeksin.",
+            "Sen bensin,",
+            "Ben zaten,",
+            "Yüreğime düştüğünden beri,",
+            "Hep seninleyim.",
+            "", "---", "",
             "Aşkın en güzel rengisin sen sevgilim,",
             "Dünyadaki çiçeklerin en güzel kokanısın...",
             "Ellerin öyle sıcak, öyle içten ki sevgilim,",
-            "Sen istemesen de insanın sana âşık olası gelir.", "",
-            "---", "",
+            "Sen istemesen de insanın sana âşık olası gelir.",
+            "", "---", "",
             "Seninle bir ömrüm olsun,",
             "Seninle unutulmaz zamanlarım...",
             "Sana tutsak gönlüm olsun,",
@@ -160,8 +151,8 @@
             "Her şeyde sen varsın,",
             "Baktığım her yönde sen...",
             "Kıyamet kopsun varsın,",
-            "Cehennemim, cennetim sen...", "",
-            "SENİ ÇOK SEVİYORUM ❤️"
+            "Cehennemim, cennetim sen...",
+            "", "SENİ ÇOK SEVİYORUM ❤️"
         ];
 
         let lineIdx = 0; let charIdx = 0;
@@ -186,25 +177,24 @@
             const p = document.getElementById('password').value.trim();
 
             if (u === "karicim" && p === "071225") {
-                // Müziği Başlat (YouTube API Komutu)
+                // Şarkıyı kesin başlatmak için API komutu
                 const iframe = document.getElementById('music-iframe');
                 iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 
-                // Giriş Ekranını Kapat
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
                     
-                    // Neon Kalp Animasyonunu Başlat
-                    const animDiv = document.getElementById('heart-anim-container');
-                    animDiv.style.display = 'block';
-                    setTimeout(() => animDiv.style.opacity = '1', 100);
+                    // GIF'li Neon Kalbi Göster
+                    const gifDiv = document.getElementById('gif-container');
+                    gifDiv.style.display = 'block';
+                    setTimeout(() => gifDiv.style.opacity = '1', 100);
 
-                    // 4 saniye sonra ana içeriğe geç
+                    // 4 saniye sonra şiire geç
                     setTimeout(() => {
-                        animDiv.style.opacity = '0';
+                        gifDiv.style.opacity = '0';
                         setTimeout(() => {
-                            animDiv.style.display = 'none';
+                            gifDiv.style.display = 'none';
                             const mainDiv = document.getElementById('main-content');
                             mainDiv.style.display = 'block';
                             setTimeout(() => {
@@ -219,7 +209,6 @@
             }
         }
 
-        // Sayaç Ayarı
         const startDate = new Date(2025, 11, 7); 
         function updateTimer() {
             const now = new Date();
