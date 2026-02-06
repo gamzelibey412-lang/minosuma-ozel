@@ -20,7 +20,9 @@
         }
         .heart-particle {
             position: absolute; color: #ff1744; font-size: 20px;
-            text-shadow: 0 0 15px #ff1744; animation: fly 6s linear infinite; opacity: 0;
+            /* Güçlü Neon Efekti */
+            text-shadow: 0 0 5px #ff1744, 0 0 10px #ff1744, 0 0 20px #ff1744; 
+            animation: fly 6s linear infinite; opacity: 0;
         }
         @keyframes fly {
             0% { transform: translateY(100vh) scale(0); opacity: 0; }
@@ -36,7 +38,8 @@
         }
         .login-box {
             background: #0a0a0a; padding: 40px; border: 2px solid #ff1744;
-            border-radius: 20px; text-align: center; box-shadow: 0 0 20px #ff1744;
+            border-radius: 20px; text-align: center; 
+            box-shadow: 0 0 15px #ff1744, inset 0 0 10px #ff1744;
         }
         input {
             display: block; width: 250px; padding: 12px; margin: 15px 0;
@@ -45,21 +48,24 @@
         .login-btn {
             background: #ff1744; color: #000; border: none;
             padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 0 10px #ff1744;
         }
 
-        /* BİRLEŞEN NEON KALP ANİMASYONU */
+        /* BİRLEŞEN TAM NEON KALP ANİMASYONU */
         #heart-anim-container {
             display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s;
+            text-align: center;
         }
         .neon-heart {
-            font-size: 100px; color: #ff1744;
-            text-shadow: 0 0 20px #ff1744, 0 0 40px #ff1744;
+            font-size: 120px; color: #ff1744;
+            /* Ultra Neon Parlama */
+            text-shadow: 0 0 10px #ff1744, 0 0 20px #ff1744, 0 0 40px #ff1744, 0 0 60px #ff1744;
             display: inline-block; animation: merge 3s ease-in-out forwards;
         }
         @keyframes merge {
-            0% { transform: translateX(-100px); opacity: 0; }
-            50% { transform: translateX(0); opacity: 1; scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: translateX(-150px) rotate(-20deg); opacity: 0; }
+            50% { transform: translateX(0) rotate(0deg); opacity: 1; scale(1.3); }
+            100% { transform: scale(1.1); opacity: 1; }
         }
 
         /* ANA İÇERİK */
@@ -68,10 +74,13 @@
             text-align: center; padding: 20px; opacity: 0; transition: 1s;
             max-height: 80vh; overflow-y: auto;
         }
-        .typewriter-container { font-size: 1.1em; line-height: 1.5; color: #ff5252; text-align: center; }
+        .typewriter-container { 
+            font-size: 1.1em; line-height: 1.5; color: #ff5252; 
+            text-shadow: 0 0 5px rgba(255, 23, 68, 0.3);
+        }
         .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 10px; }
 
-        #player-container { position: absolute; top: -5000px; }
+        #player-container { position: absolute; top: -5000px; left: -5000px; }
     </style>
 </head>
 <body>
@@ -80,18 +89,18 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744;">Hoş Geldin Minoşum ❤️</h2>
+            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Hoş Geldin Minoşum ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="unlockAndPlay()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Bilgiler hatalı sevgilim!</p>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Hatalı bilgi sevgilim!</p>
         </div>
     </div>
 
     <div id="heart-anim-container">
         <div class="neon-heart">❤️</div>
-        <div class="neon-heart" style="animation-delay: 0.2s;">❤️</div>
-        <h2 style="margin-top: 20px; color: #fff; text-shadow: 0 0 10px #ff1744;">Sen ve Ben...</h2>
+        <div class="neon-heart" style="animation-delay: 0.3s;">❤️</div>
+        <h2 style="margin-top: 30px; color: #fff; text-shadow: 0 0 15px #ff1744;">Bir Elmanın İki Yarısı...</h2>
     </div>
 
     <div id="main-content">
@@ -101,11 +110,12 @@
 
     <div id="player-container">
         <iframe id="music-iframe" width="100" height="100" 
-            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1" 
-            frameborder="0"></iframe>
+            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1&autoplay=0" 
+            frameborder="0" allow="autoplay"></iframe>
     </div>
 
     <script>
+        // Arka Plan Neon Kalp Yağmuru
         function createHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
@@ -160,12 +170,11 @@
             if (lineIdx < lines.length) {
                 if (charIdx < lines[lineIdx].length) {
                     target.innerHTML += lines[lineIdx].charAt(charIdx);
-                    charIdx++; setTimeout(typeWriter, 40);
+                    charIdx++; setTimeout(typeWriter, 45);
                 } else {
                     target.innerHTML += "<br>";
                     lineIdx++; charIdx = 0; 
-                    const delay = lines[lineIdx-1] === "" ? 400 : 500;
-                    setTimeout(typeWriter, delay);
+                    setTimeout(typeWriter, 600);
                     const mainContent = document.getElementById('main-content');
                     mainContent.scrollTop = mainContent.scrollHeight;
                 }
@@ -175,15 +184,23 @@
         function unlockAndPlay() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
+
             if (u === "karicim" && p === "071225") {
+                // Müziği Başlat (YouTube API Komutu)
                 const iframe = document.getElementById('music-iframe');
                 iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+                // Giriş Ekranını Kapat
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
+                    
+                    // Neon Kalp Animasyonunu Başlat
                     const animDiv = document.getElementById('heart-anim-container');
                     animDiv.style.display = 'block';
                     setTimeout(() => animDiv.style.opacity = '1', 100);
+
+                    // 4 saniye sonra ana içeriğe geç
                     setTimeout(() => {
                         animDiv.style.opacity = '0';
                         setTimeout(() => {
@@ -202,7 +219,8 @@
             }
         }
 
-        const startDate = new Date(2025, 11, 7);
+        // Sayaç Ayarı
+        const startDate = new Date(2025, 11, 7); 
         function updateTimer() {
             const now = new Date();
             const diff = now - startDate;
