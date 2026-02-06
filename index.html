@@ -13,7 +13,7 @@
             min-height: 100vh; overflow: hidden;
         }
 
-        /* ARKA PLAN KALPLER */
+        /* ARKA PLAN NEON KALPLER */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
@@ -32,42 +32,49 @@
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; justify-content: center;
-            align-items: center; z-index: 999;
+            align-items: center; z-index: 999; transition: 0.8s;
         }
         .login-box {
-            background: #0a0a0a; padding: 30px; border: 2px solid #ff1744;
-            border-radius: 20px; text-align: center; box-shadow: 0 0 20px #ff1744;
+            background: #0a0a0a; padding: 40px; border: 2px solid #ff1744;
+            border-radius: 20px; text-align: center; box-shadow: 0 0 25px #ff1744;
         }
         input {
-            display: block; width: 220px; padding: 12px; margin: 15px auto;
+            display: block; width: 250px; padding: 12px; margin: 15px auto;
             background: #000; border: 1px solid #ff1744; color: #fff; border-radius: 8px; outline: none;
+            text-align: center;
         }
         .login-btn {
             background: #ff1744; color: #000; border: none; padding: 12px 30px;
             border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;
+            text-transform: uppercase;
         }
 
         /* GIF ALANI */
         #gif-container {
-            display: none; position: fixed; z-index: 50; text-align: center;
+            display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s; text-align: center;
         }
         #heart-gif {
-            width: 280px; filter: drop-shadow(0 0 15px #ff1744); border-radius: 15px;
+            width: 320px; max-width: 85vw; filter: drop-shadow(0 0 15px #ff1744); border-radius: 20px;
         }
 
-        /* ŞİİR ALANI */
+        /* ANA İÇERİK (ŞİİRLER) */
         #main-content {
-            display: none; z-index: 10; width: 90%; max-width: 500px;
-            text-align: center; max-height: 70vh; overflow-y: auto;
+            display: none; z-index: 10; max-width: 600px; width: 90%;
+            text-align: center; padding: 20px; opacity: 0; transition: 1s;
+            max-height: 80vh; overflow-y: auto;
         }
-        .typewriter { font-size: 1.1em; line-height: 1.6; color: #ff5252; }
-        .timer { font-size: 0.9em; margin-top: 25px; color: #fff; border-top: 1px solid #ff1744; padding-top: 10px; }
+        .typewriter-container { 
+            font-size: 1.1em; line-height: 1.6; color: #ff5252; 
+            text-shadow: 0 0 5px rgba(255, 23, 68, 0.2);
+        }
+        .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 15px; }
 
-        /* MÜZİK KUTUSU (GÖRÜNÜR YAPTIK Kİ ENGELİ AŞALIM) */
+        /* MÜZİK KUTUSU */
         #music-box {
-            position: fixed; bottom: 10px; right: 10px; 
-            border: 1px solid #ff1744; border-radius: 10px;
-            background: #000; padding: 5px; opacity: 0.5; z-index: 100;
+            position: fixed; bottom: 15px; right: 15px; 
+            border: 1px solid #ff1744; border-radius: 15px;
+            background: #000; padding: 8px; z-index: 1000;
+            box-shadow: 0 0 10px #ff1744;
         }
     </style>
 </head>
@@ -77,87 +84,143 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744;">Seni Seviyorum ❤️</h2>
+            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel Bir Sürpriz ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
-            <button class="login-btn" onclick="start()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Hatalı!</p>
+            <button class="login-btn" onclick="startExperience()">Giriş Yap</button>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Yanlış şifre sevgilim!</p>
         </div>
     </div>
 
     <div id="gif-container">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXF6OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH/giphy.gif" id="heart-gif">
-        <h2 style="color: #fff; text-shadow: 0 0 10px #ff1744;">Kalbim Seninle...</h2>
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXF6OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH/giphy.gif" id="heart-gif">
+        <h2 style="margin-top: 25px; color: #fff; text-shadow: 0 0 15px #ff1744;">Sadece Senin İçin... ❤️</h2>
     </div>
 
     <div id="main-content">
-        <div id="text-target" class="typewriter"></div>
+        <div id="text-target" class="typewriter-container"></div>
         <div id="timer" class="timer"></div>
     </div>
 
     <div id="music-box">
-        <p style="font-size: 10px; margin: 0; color: #ff1744;">Müzik Çalar</p>
-        <iframe id="yt-player" width="150" height="80" 
-            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1" 
-            frameborder="0" allow="autoplay"></iframe>
+        <p style="font-size: 10px; margin: 0 0 5px 0; color: #ff1744; text-align: center;">Bahar 🎶</p>
+        <iframe id="yt-player" width="180" height="100" 
+            src="https://www.youtube.com/embed/ovgIZCTb37o?enablejsapi=1" 
+            frameborder="0" allow="autoplay; encrypted-media"></iframe>
     </div>
 
     <script>
-        // Arka plan kalpleri
-        setInterval(() => {
-            const h = document.createElement('div');
-            h.innerHTML = '❤️'; h.classList.add('heart-particle');
-            h.style.left = Math.random() * 100 + 'vw';
-            document.getElementById('hearts-bg').appendChild(h);
-            setTimeout(() => h.remove(), 6000);
-        }, 500);
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('hearts-bg').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 500);
 
-        const lines = ["Bedenimin sol köşesine,", "Bir dünya kuralım seninle.", "İyi ki varsın...", "SENİ ÇOK SEVİYORUM ❤️"];
+        const lines = [
+            "İyi ki benimlesin...", "",
+            "Bedenimin sol köşesine,",
+            "Bir dünya kuralım seninle.",
+            "İki kalem bir kağıt,",
+            "Yazalım bir ömrü seninle...",
+            "Ferhat'ın Aslı'sı gibi,",
+            "İçinde sen olan,",
+            "Bir yol tayin et bana,",
+            "Kapısı sana açılan...", "",
+            "---", "",
+            "Aşk sensin,",
+            "Çekip gitmiş gençliğimin,",
+            "Yazdığım şiirlerin,",
+            "En güzel yerindesin.",
+            "Yüreğimin tam orta yerinde,",
+            "Eşsiz nadide bir çiçeksin.",
+            "Sen bensin,",
+            "Ben zaten,",
+            "Yüreğime düştüğünden beri,",
+            "Hep seninleyim.", "",
+            "---", "",
+            "Aşkın en güzel rengisin sen sevgilim,",
+            "Dünyadaki çiçeklerin en güzel kokanısın...",
+            "Ellerin öyle sıcak, öyle içten ki sevgilim,",
+            "Sen istemesen de insanın sana âşık olası gelir.", "",
+            "---", "",
+            "Seninle bir ömrüm olsun,",
+            "Seninle unutulmaz zamanlarım...",
+            "Sana tutsak gönlüm olsun,",
+            "Bedenimden çıksa anlarım.",
+            "Her şeyde sen varsın,",
+            "Baktığım her yönde sen...",
+            "Kıyamet kopsun varsın,",
+            "Cehennemim, cennetim sen...", "",
+            "SENİ ÇOK SEVİYORUM ❤️"
+        ];
 
-        function start() {
+        let lineIdx = 0; let charIdx = 0;
+        function typeWriter() {
+            const target = document.getElementById('text-target');
+            if (lineIdx < lines.length) {
+                if (charIdx < lines[lineIdx].length) {
+                    target.innerHTML += lines[lineIdx].charAt(charIdx);
+                    charIdx++; setTimeout(typeWriter, 50);
+                } else {
+                    target.innerHTML += "<br>";
+                    lineIdx++; charIdx = 0; 
+                    setTimeout(typeWriter, 700);
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.scrollTop = mainContent.scrollHeight;
+                }
+            }
+        }
+
+        function startExperience() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
 
             if (u === "karicim" && p === "071225") {
-                // Müziği oynatmayı dene
-                const frame = document.getElementById('yt-player');
-                frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                const iframe = document.getElementById('yt-player');
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 
-                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('login-overlay').style.opacity = '0';
                 
-                // Önce GIF'i göster
-                const gc = document.getElementById('gif-container');
-                gc.style.display = 'block';
-                gc.style.opacity = '1';
-
-                // 4 saniye sonra şiire geç
                 setTimeout(() => {
-                    gc.style.display = 'none';
-                    const mc = document.getElementById('main-content');
-                    mc.style.display = 'block';
-                    mc.style.opacity = '1';
+                    document.getElementById('login-overlay').style.display = 'none';
                     
-                    let l = 0;
-                    function type() {
-                        if(l < lines.length) {
-                            document.getElementById('text-target').innerHTML += lines[l] + "<br><br>";
-                            l++; setTimeout(type, 1000);
-                        }
-                    }
-                    type();
-                }, 4000);
+                    const gifDiv = document.getElementById('gif-container');
+                    gifDiv.style.display = 'block';
+                    setTimeout(() => gifDiv.style.opacity = '1', 100);
 
+                    setTimeout(() => {
+                        gifDiv.style.opacity = '0';
+                        setTimeout(() => {
+                            gifDiv.style.display = 'none';
+                            const mainDiv = document.getElementById('main-content');
+                            mainDiv.style.display = 'block';
+                            setTimeout(() => {
+                                mainDiv.style.opacity = '1';
+                                typeWriter();
+                            }, 100);
+                        }, 1000);
+                    }, 4000);
+                }, 800);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
 
         const startDate = new Date(2025, 11, 7); 
-        setInterval(() => {
-            const diff = new Date() - startDate;
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('timer').innerHTML = d + " Gündür Seninleyim...";
-        }, 1000);
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            document.getElementById('timer').innerHTML = `${d} Gün, ${h} Saat, ${m} Dakikadır Seninleyim...`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
     </script>
 </body>
 </html>
