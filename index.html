@@ -46,18 +46,17 @@
         .login-btn {
             background: #ff1744; color: #000; border: none; padding: 12px 30px;
             border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;
-            text-transform: uppercase;
         }
 
-        /* GIF ALANI */
+        /* GIF ALANI - DÜZELTİLDİ */
         #gif-container {
             display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s; text-align: center;
         }
         #heart-gif {
-            width: 320px; max-width: 85vw; filter: drop-shadow(0 0 15px #ff1744); border-radius: 20px;
+            width: 300px; max-width: 85vw; filter: drop-shadow(0 0 20px #ff1744); border-radius: 15px;
         }
 
-        /* ANA İÇERİK (ŞİİRLER) */
+        /* ANA İÇERİK */
         #main-content {
             display: none; z-index: 10; max-width: 600px; width: 90%;
             text-align: center; padding: 20px; opacity: 0; transition: 1s;
@@ -65,16 +64,12 @@
         }
         .typewriter-container { 
             font-size: 1.1em; line-height: 1.6; color: #ff5252; 
-            text-shadow: 0 0 5px rgba(255, 23, 68, 0.2);
         }
         .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 15px; }
 
-        /* MÜZİK KUTUSU */
-        #music-box {
-            position: fixed; bottom: 15px; right: 15px; 
-            border: 1px solid #ff1744; border-radius: 15px;
-            background: #000; padding: 8px; z-index: 1000;
-            box-shadow: 0 0 10px #ff1744;
+        /* VİDEO GİZLENDİ - ARTIK KÖŞEDE GÖRÜNMEYECEK */
+        #video-wrap {
+            position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
         }
     </style>
 </head>
@@ -84,16 +79,16 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel Bir Sürpriz ❤️</h2>
+            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
-            <button class="login-btn" onclick="startExperience()">Giriş Yap</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Yanlış şifre sevgilim!</p>
+            <button class="login-btn" onclick="start()">Giriş Yap</button>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Şifre yanlış hayatım!</p>
         </div>
     </div>
 
     <div id="gif-container">
-        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXF6OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH/giphy.gif" id="heart-gif">
+        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHV0Z296M296OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH/giphy.gif" id="heart-gif">
         <h2 style="margin-top: 25px; color: #fff; text-shadow: 0 0 15px #ff1744;">Sadece Senin İçin... ❤️</h2>
     </div>
 
@@ -102,11 +97,10 @@
         <div id="timer" class="timer"></div>
     </div>
 
-    <div id="music-box">
-        <p style="font-size: 10px; margin: 0 0 5px 0; color: #ff1744; text-align: center;">Bahar 🎶</p>
-        <iframe id="yt-player" width="180" height="100" 
-            src="https://www.youtube.com/embed/ovgIZCTb37o?enablejsapi=1" 
-            frameborder="0" allow="autoplay; encrypted-media"></iframe>
+    <div id="video-wrap">
+        <iframe id="yt-player" width="100" height="100" 
+            src="https://www.youtube.com/embed/ovgIZCTb37o?enablejsapi=1&autoplay=0" 
+            allow="autoplay"></iframe>
     </div>
 
     <script>
@@ -122,105 +116,79 @@
 
         const lines = [
             "İyi ki benimlesin...", "",
-            "Bedenimin sol köşesine,",
-            "Bir dünya kuralım seninle.",
-            "İki kalem bir kağıt,",
-            "Yazalım bir ömrü seninle...",
-            "Ferhat'ın Aslı'sı gibi,",
-            "İçinde sen olan,",
-            "Bir yol tayin et bana,",
-            "Kapısı sana açılan...", "",
+            "Bedenimin sol köşesine,", "Bir dünya kuralım seninle.",
+            "İki kalem bir kağıt,", "Yazalım bir ömrü seninle...",
+            "Ferhat'ın Aslı'sı gibi,", "İçinde sen olan,",
+            "Bir yol tayin et bana,", "Kapısı sana açılan...", "",
             "---", "",
-            "Aşk sensin,",
-            "Çekip gitmiş gençliğimin,",
-            "Yazdığım şiirlerin,",
-            "En güzel yerindesin.",
-            "Yüreğimin tam orta yerinde,",
-            "Eşsiz nadide bir çiçeksin.",
-            "Sen bensin,",
-            "Ben zaten,",
-            "Yüreğime düştüğünden beri,",
-            "Hep seninleyim.", "",
+            "Aşk sensin,", "Çekip gitmiş gençliğimin,",
+            "Yazdığım şiirlerin,", "En güzel yerindesin.",
+            "Yüreğimin tam orta yerinde,", "Eşsiz nadide bir çiçeksin.",
+            "Sen bensin,", "Ben zaten,",
+            "Yüreğime düştüğünden beri,", "Hep seninleyim.", "",
             "---", "",
             "Aşkın en güzel rengisin sen sevgilim,",
             "Dünyadaki çiçeklerin en güzel kokanısın...",
             "Ellerin öyle sıcak, öyle içten ki sevgilim,",
             "Sen istemesen de insanın sana âşık olası gelir.", "",
             "---", "",
-            "Seninle bir ömrüm olsun,",
-            "Seninle unutulmaz zamanlarım...",
-            "Sana tutsak gönlüm olsun,",
-            "Bedenimden çıksa anlarım.",
-            "Her şeyde sen varsın,",
-            "Baktığım her yönde sen...",
-            "Kıyamet kopsun varsın,",
-            "Cehennemim, cennetim sen...", "",
-            "SENİ ÇOK SEVİYORUM ❤️"
+            "Seninle bir ömrüm olsun,", "Seninle unutulmaz zamanlarım...",
+            "Sana tutsak gönlüm olsun,", "Bedenimden çıksa anlarım.",
+            "Her şeyde sen varsın,", "Baktığım her yönde sen...",
+            "Kıyamet kopsun varsın,", "Cehennemim, cennetim sen...", "",
+            "SENİ ÇOK SEVİYORUM KARİCİM ❤️"
         ];
 
-        let lineIdx = 0; let charIdx = 0;
-        function typeWriter() {
-            const target = document.getElementById('text-target');
-            if (lineIdx < lines.length) {
-                if (charIdx < lines[lineIdx].length) {
-                    target.innerHTML += lines[lineIdx].charAt(charIdx);
-                    charIdx++; setTimeout(typeWriter, 50);
+        let lIdx = 0; let cIdx = 0;
+        function type() {
+            const t = document.getElementById('text-target');
+            if (lIdx < lines.length) {
+                if (cIdx < lines[lIdx].length) {
+                    t.innerHTML += lines[lIdx].charAt(cIdx);
+                    cIdx++; setTimeout(type, 50);
                 } else {
-                    target.innerHTML += "<br>";
-                    lineIdx++; charIdx = 0; 
-                    setTimeout(typeWriter, 700);
-                    const mainContent = document.getElementById('main-content');
-                    mainContent.scrollTop = mainContent.scrollHeight;
+                    t.innerHTML += "<br>";
+                    lIdx++; cIdx = 0; setTimeout(type, 700);
+                    const m = document.getElementById('main-content');
+                    m.scrollTop = m.scrollHeight;
                 }
             }
         }
 
-        function startExperience() {
+        function start() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
 
             if (u === "karicim" && p === "071225") {
-                const iframe = document.getElementById('yt-player');
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                // Şarkıyı başlat
+                const frame = document.getElementById('yt-player');
+                frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 
-                document.getElementById('login-overlay').style.opacity = '0';
+                document.getElementById('login-overlay').style.display = 'none';
                 
-                setTimeout(() => {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    
-                    const gifDiv = document.getElementById('gif-container');
-                    gifDiv.style.display = 'block';
-                    setTimeout(() => gifDiv.style.opacity = '1', 100);
+                const g = document.getElementById('gif-container');
+                g.style.display = 'block';
+                setTimeout(() => g.style.opacity = '1', 100);
 
-                    setTimeout(() => {
-                        gifDiv.style.opacity = '0';
-                        setTimeout(() => {
-                            gifDiv.style.display = 'none';
-                            const mainDiv = document.getElementById('main-content');
-                            mainDiv.style.display = 'block';
-                            setTimeout(() => {
-                                mainDiv.style.opacity = '1';
-                                typeWriter();
-                            }, 100);
-                        }, 1000);
-                    }, 4000);
-                }, 800);
+                setTimeout(() => {
+                    g.style.display = 'none';
+                    const mc = document.getElementById('main-content');
+                    mc.style.display = 'block';
+                    setTimeout(() => { mc.style.opacity = '1'; type(); }, 100);
+                }, 4000);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
 
-        const startDate = new Date(2025, 11, 7); 
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
+        const startD = new Date(2025, 11, 7); 
+        setInterval(() => {
+            const diff = new Date() - startD;
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const m = Math.floor((diff / 1000 / 60) % 60);
             document.getElementById('timer').innerHTML = `${d} Gün, ${h} Saat, ${m} Dakikadır Seninleyim...`;
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
+        }, 1000);
     </script>
 </body>
 </html>
