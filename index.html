@@ -72,11 +72,7 @@
         }
         .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 10px; }
 
-        /* Müzik çalar görünmez ama aktif */
-        #player-container { 
-            position: absolute; width: 1px; height: 1px; 
-            overflow: hidden; left: -100px; top: -100px;
-        }
+        #player-container { position: absolute; visibility: hidden; }
     </style>
 </head>
 <body>
@@ -85,16 +81,18 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Hazır mısın sevgilim? ❤️</h2>
+            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel... ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
-            <button class="login-btn" onclick="unlockAndPlay()">Sürprizi Başlat</button>
+            <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
             <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Şifre yanlış hayatım!</p>
         </div>
     </div>
 
     <div id="gif-container">
-        <img src="love-heart.gif" id="heart-gif" onerror="this.src='https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXF6OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH" id="heart-gif-fallback" alt="Aşk">
+        <img src="love-heart.gif" id="heart-gif" 
+             onerror="this.onerror=null; this.src='https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXF6OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH'" 
+             alt="Kalp">
         <h2 style="margin-top: 20px; color: #fff; text-shadow: 0 0 10px #ff1744;">Sadece Senin İçin... ❤️</h2>
     </div>
 
@@ -104,12 +102,31 @@
     </div>
 
     <div id="player-container">
-        <iframe id="music-iframe" width="100" height="100" 
-            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1&autoplay=0" 
-            frameborder="0" allow="autoplay; encrypted-media"></iframe>
+        <div id="yt-player"></div>
     </div>
 
     <script>
+        // YouTube API Yükleme
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('yt-player', {
+                height: '0',
+                width: '0',
+                videoId: 'S_B7_P-D29I', // Toygar Işıklı - Anlatamam
+                playerVars: { 'autoplay': 0, 'controls': 0, 'enablejsapi': 1 },
+                events: { 'onReady': onPlayerReady }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log("Müzik hazır.");
+        }
+
         function createHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
@@ -174,14 +191,15 @@
             }
         }
 
-        function unlockAndPlay() {
+        function startSurprise() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
 
             if (u === "karicim" && p === "071225") {
-                // Şarkıyı kesin başlatmayı dene
-                const iframe = document.getElementById('music-iframe');
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                // Müzik çalmayı başlat
+                if (player && player.playVideo) {
+                    player.playVideo();
+                }
 
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
