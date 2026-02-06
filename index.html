@@ -11,67 +11,67 @@
             background-color: #000; color: #ff1744;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden;
-            text-shadow: 0 0 8px rgba(255, 23, 68, 0.6);
         }
 
+        /* ARKA PLAN NEON KALPLER */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
         }
-
         .heart-particle {
             position: absolute; color: #ff1744; font-size: 20px;
-            text-shadow: 0 0 15px #ff1744, 0 0 30px #ff1744;
-            animation: fly 6s linear infinite; opacity: 0;
+            text-shadow: 0 0 15px #ff1744; animation: fly 6s linear infinite; opacity: 0;
         }
-
         @keyframes fly {
             0% { transform: translateY(100vh) scale(0); opacity: 0; }
             20% { opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
+        /* GİRİŞ EKRANI */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; justify-content: center;
             align-items: center; z-index: 999; transition: 1s;
         }
-
         .login-box {
             background: #0a0a0a; padding: 40px; border: 2px solid #ff1744;
-            border-radius: 20px; text-align: center;
-            box-shadow: 0 0 20px #ff1744;
+            border-radius: 20px; text-align: center; box-shadow: 0 0 20px #ff1744;
         }
-
         input {
             display: block; width: 250px; padding: 12px; margin: 15px 0;
-            background: #000; border: 1px solid #ff1744; color: #fff;
-            border-radius: 8px; outline: none;
+            background: #000; border: 1px solid #ff1744; color: #fff; border-radius: 8px; outline: none;
         }
-
         .login-btn {
             background: #ff1744; color: #000; border: none;
-            padding: 12px 30px; border-radius: 8px; cursor: pointer;
-            font-weight: bold; font-size: 16px;
+            padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold;
         }
 
+        /* BİRLEŞEN NEON KALP ANİMASYONU */
+        #heart-anim-container {
+            display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s;
+        }
+        .neon-heart {
+            font-size: 100px; color: #ff1744;
+            text-shadow: 0 0 20px #ff1744, 0 0 40px #ff1744;
+            display: inline-block; animation: merge 3s ease-in-out forwards;
+        }
+        @keyframes merge {
+            0% { transform: translateX(-100px); opacity: 0; }
+            50% { transform: translateX(0); opacity: 1; scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ANA İÇERİK */
         #main-content {
-            display: none; z-index: 10; max-width: 600px;
-            width: 90%; text-align: center; padding: 20px;
+            display: none; z-index: 10; max-width: 600px; width: 90%;
+            text-align: center; padding: 20px; opacity: 0; transition: 1s;
+            max-height: 80vh; overflow-y: auto;
         }
+        .typewriter-container { font-size: 1.1em; line-height: 1.5; color: #ff5252; text-align: center; }
+        .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 10px; }
 
-        .typewriter-container {
-            font-size: 1.2em; line-height: 1.6; min-height: 350px;
-            margin-bottom: 30px; color: #ff5252;
-        }
-
-        .timer {
-            font-size: 0.9em; padding: 15px; color: #fff;
-            border-top: 1px solid rgba(255, 23, 68, 0.3);
-            display: block; margin-top: 40px;
-        }
-
-        #player-container { position: absolute; top: -5000px; left: -5000px; }
+        #player-container { position: absolute; top: -5000px; }
     </style>
 </head>
 <body>
@@ -84,8 +84,14 @@
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="unlockAndPlay()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; font-size: 12px; margin-top:10px;">Bilgiler hatalı sevgilim!</p>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:10px;">Bilgiler hatalı sevgilim!</p>
         </div>
+    </div>
+
+    <div id="heart-anim-container">
+        <div class="neon-heart">❤️</div>
+        <div class="neon-heart" style="animation-delay: 0.2s;">❤️</div>
+        <h2 style="margin-top: 20px; color: #fff; text-shadow: 0 0 10px #ff1744;">Sen ve Ben...</h2>
     </div>
 
     <div id="main-content">
@@ -95,16 +101,14 @@
 
     <div id="player-container">
         <iframe id="music-iframe" width="100" height="100" 
-            src="https://www.youtube.com/embed/X5EerChfxho?enablejsapi=1" 
-            frameborder="0" allow="autoplay"></iframe>
+            src="https://www.youtube.com/embed/S_B7_P-D29I?enablejsapi=1" 
+            frameborder="0"></iframe>
     </div>
 
     <script>
-        // Kalp Yağmuru
         function createHeart() {
             const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
             document.getElementById('hearts-bg').appendChild(heart);
@@ -112,26 +116,42 @@
         }
         setInterval(createHeart, 400);
 
-        // Daktilo Yazısı
         const lines = [
             "İyi ki benimlesin...", "",
-            "Seni özlemek istemiyorum ben,",
-            "Ben seni yaşamak istiyorum,",
-            "Seni her özlediğimde sana bakmak istiyorum",
-            "Ve seni sende görmek sadece...", "",
-            "Seni seviyorum,",
-            "Sebepsiz, zamansız,",
-            "Bir çiçeğin güneşe yönelişi gibi.",
-            "---",
-            "Üşüdüm... Senin sevgin ısıttı beni.",
-            "Özledim.... Hayalin diriltti beni.",
-            "Sustum... Adın söyletti beni.",
-            "Ağladım... Aşkın mutlu etti beni.",
-            "---",
-            "Gelirim dersen.. Ben koşarım.",
-            "Konuşurum dersen... Ben haykırırım.",
-            "Çünkü sen... Sen aşksın.", "",
-            "SENİ SEVİYORUM GÜZEL KIZIM 🫶"
+            "Bedenimin sol köşesine",
+            "Bir dünya kuralım seninle",
+            "İki kalem bir kağıt",
+            "Yazalım bir ömrü seninle",
+            "Ferhat'ın Aslı'sı gibi",
+            "İçinde sen olan",
+            "Bir yol tayin et bana",
+            "Kapısı sana açılan...", "",
+            "---", "",
+            "Aşk sensin",
+            "Çekip gitmiş gençliğimin",
+            "Yazdığım şiirlerin",
+            "En güzel yerindesin",
+            "Yüreğimin tam orta yerinde",
+            "Eşsiz nadide bir çiçeksin",
+            "Sen bensin",
+            "Ben zaten",
+            "Yüreğime düştüğünden beri",
+            "Hep seninleyim", "",
+            "---", "",
+            "Aşkın en güzel rengisin sen sevgilim,",
+            "Dünyadaki çiçeklerin en güzel kokanısın...",
+            "Ellerin öyle sıcak, öyle içten ki sevgilim,",
+            "Sen istemesen de insanın sana âşık olası gelir.", "",
+            "---", "",
+            "Seninle bir ömrüm olsun,",
+            "Seninle unutulmaz zamanlarım...",
+            "Sana tutsak gönlüm olsun,",
+            "Bedenimden çıksa anlarım.",
+            "Her şeyde sen varsın,",
+            "Baktığım her yönde sen...",
+            "Kıyamet kopsun varsın,",
+            "Cehennemim, cennetim sen...", "",
+            "SENİ ÇOK SEVİYORUM ❤️"
         ];
 
         let lineIdx = 0; let charIdx = 0;
@@ -140,39 +160,48 @@
             if (lineIdx < lines.length) {
                 if (charIdx < lines[lineIdx].length) {
                     target.innerHTML += lines[lineIdx].charAt(charIdx);
-                    charIdx++;
-                    setTimeout(typeWriter, 50);
+                    charIdx++; setTimeout(typeWriter, 40);
                 } else {
                     target.innerHTML += "<br>";
-                    lineIdx++; charIdx = 0;
-                    setTimeout(typeWriter, 500);
+                    lineIdx++; charIdx = 0; 
+                    const delay = lines[lineIdx-1] === "" ? 400 : 500;
+                    setTimeout(typeWriter, delay);
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.scrollTop = mainContent.scrollHeight;
                 }
             }
         }
 
-        // Giriş Kontrolü
         function unlockAndPlay() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
-
             if (u === "karicim" && p === "071225") {
-                // Müziği oynatmayı dene
                 const iframe = document.getElementById('music-iframe');
                 iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-
-                // Ekranı değiştir
                 document.getElementById('login-overlay').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-overlay').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    typeWriter();
+                    const animDiv = document.getElementById('heart-anim-container');
+                    animDiv.style.display = 'block';
+                    setTimeout(() => animDiv.style.opacity = '1', 100);
+                    setTimeout(() => {
+                        animDiv.style.opacity = '0';
+                        setTimeout(() => {
+                            animDiv.style.display = 'none';
+                            const mainDiv = document.getElementById('main-content');
+                            mainDiv.style.display = 'block';
+                            setTimeout(() => {
+                                mainDiv.style.opacity = '1';
+                                typeWriter();
+                            }, 100);
+                        }, 1000);
+                    }, 4000);
                 }, 1000);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
         }
 
-        // Sayaç
         const startDate = new Date(2025, 11, 7);
         function updateTimer() {
             const now = new Date();
@@ -180,7 +209,7 @@
             const d = Math.floor(diff / (1000 * 60 * 60 * 24));
             const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const m = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('timer').innerHTML = `${d} Gün, ${h} Saat, ${m} Dakikadır Seninim...`;
+            document.getElementById('timer').innerHTML = `${d} Gün, ${h} Saat, ${m} Dakikadır Seninleyim...`;
         }
         setInterval(updateTimer, 1000);
         updateTimer();
