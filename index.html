@@ -7,24 +7,26 @@
     <style>
         body {
             margin: 0; padding: 0;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #000; color: #ff1744;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #000; color: #fff;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden;
         }
 
-        /* ARKA PLAN NEON KALPLER */
+        /* ARKA PLAN KALP YAĞMURU ANIMASYONU */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
         }
         .heart-particle {
             position: absolute; color: #ff1744; font-size: 20px;
-            text-shadow: 0 0 10px #ff1744; animation: fly 6s linear infinite; opacity: 0;
+            text-shadow: 0 0 10px #ff1744; 
+            animation: fly 5s linear infinite; opacity: 0;
         }
         @keyframes fly {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            20% { opacity: 1; }
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
@@ -32,45 +34,43 @@
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; display: flex; justify-content: center;
-            align-items: center; z-index: 999; transition: 0.8s;
+            align-items: center; z-index: 999;
         }
         .login-box {
-            background: #0a0a0a; padding: 40px; border: 2px solid #ff1744;
-            border-radius: 20px; text-align: center; box-shadow: 0 0 25px #ff1744;
+            background: rgba(10, 10, 10, 0.9); padding: 40px; 
+            border: 2px solid #ff1744; border-radius: 20px; 
+            text-align: center; box-shadow: 0 0 30px #ff1744;
         }
         input {
             display: block; width: 250px; padding: 12px; margin: 15px auto;
-            background: #000; border: 1px solid #ff1744; color: #fff; border-radius: 8px; outline: none;
-            text-align: center;
+            background: #111; border: 1px solid #ff1744; color: #fff; 
+            border-radius: 8px; outline: none; text-align: center; font-size: 16px;
         }
         .login-btn {
-            background: #ff1744; color: #000; border: none; padding: 12px 30px;
+            background: #ff1744; color: #fff; border: none; padding: 12px 30px;
             border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;
         }
 
-        /* GIF ALANI - DÜZELTİLDİ */
-        #gif-container {
-            display: none; position: fixed; z-index: 50; opacity: 0; transition: 1s; text-align: center;
-        }
-        #heart-gif {
-            width: 300px; max-width: 85vw; filter: drop-shadow(0 0 20px #ff1744); border-radius: 15px;
-        }
-
-        /* ANA İÇERİK */
+        /* ANA İÇERİK (Yazılar Okunur Hale Getirildi) */
         #main-content {
-            display: none; z-index: 10; max-width: 600px; width: 90%;
-            text-align: center; padding: 20px; opacity: 0; transition: 1s;
-            max-height: 80vh; overflow-y: auto;
+            display: none; z-index: 10; max-width: 700px; width: 90%;
+            text-align: center; padding: 30px; opacity: 0; transition: 1.5s;
+            max-height: 90vh; overflow-y: auto;
+            background: rgba(0, 0, 0, 0.6); border-radius: 20px;
         }
         .typewriter-container { 
-            font-size: 1.1em; line-height: 1.6; color: #ff5252; 
+            font-size: 1.4em; /* Yazılar büyütüldü */
+            line-height: 1.8; 
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
-        .timer { font-size: 0.9em; margin-top: 30px; color: #fff; border-top: 1px solid #ff1744; padding-top: 15px; }
+        .timer { 
+            font-size: 1.2em; margin-top: 40px; color: #ff1744; 
+            border-top: 1px solid #ff1744; padding-top: 20px; font-weight: bold;
+        }
 
-        /* VİDEO GİZLENDİ - ARTIK KÖŞEDE GÖRÜNMEYECEK */
-        #video-wrap {
-            position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;
-        }
+        /* VİDEO GİZLİ */
+        #video-wrap { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -79,17 +79,12 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744; text-shadow: 0 0 10px #ff1744;">Sana Özel ❤️</h2>
+            <h2 style="color: #ff1744;">Sana Özel ❤️</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
-            <button class="login-btn" onclick="start()">Giriş Yap</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Şifre yanlış hayatım!</p>
+            <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
+            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Hatalı Giriş!</p>
         </div>
-    </div>
-
-    <div id="gif-container">
-        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHV0Z296M296OWZ6YjR3eXF4eHh4eHh4eHh4eHh4eHh4eHh4eHh4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/L2dq36vH/giphy.gif" id="heart-gif">
-        <h2 style="margin-top: 25px; color: #fff; text-shadow: 0 0 15px #ff1744;">Sadece Senin İçin... ❤️</h2>
     </div>
 
     <div id="main-content">
@@ -104,38 +99,52 @@
     </div>
 
     <script>
+        // Kalp Animasyonu
         function createHeart() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
             document.getElementById('hearts-bg').appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
+            setTimeout(() => heart.remove(), 5000);
         }
-        setInterval(createHeart, 500);
+        setInterval(createHeart, 300);
 
         const lines = [
-            "İyi ki benimlesin...", "",
-            "Bedenimin sol köşesine,", "Bir dünya kuralım seninle.",
-            "İki kalem bir kağıt,", "Yazalım bir ömrü seninle...",
-            "Ferhat'ın Aslı'sı gibi,", "İçinde sen olan,",
-            "Bir yol tayin et bana,", "Kapısı sana açılan...", "",
+            "İyi ki benimlesin sevgilim...", "",
+            "Bedenimin sol köşesine,",
+            "Bir dünya kuralım seninle.",
+            "İki kalem bir kağıt,",
+            "Yazalım bir ömrü seninle...",
+            "Ferhat'ın Aslı'sı gibi,",
+            "İçinde sen olan,",
+            "Bir yol tayin et bana,",
+            "Kapısı sana açılan...", "",
             "---", "",
-            "Aşk sensin,", "Çekip gitmiş gençliğimin,",
-            "Yazdığım şiirlerin,", "En güzel yerindesin.",
-            "Yüreğimin tam orta yerinde,", "Eşsiz nadide bir çiçeksin.",
-            "Sen bensin,", "Ben zaten,",
-            "Yüreğime düştüğünden beri,", "Hep seninleyim.", "",
+            "Aşk sensin,",
+            "Çekip gitmiş gençliğimin,",
+            "Yazdığım şiirlerin,",
+            "En güzel yerindesin.",
+            "Yüreğimin tam orta yerinde,",
+            "Eşsiz nadide bir çiçeksin.",
+            "Sen bensin,",
+            "Ben zaten,",
+            "Yüreğime düştüğünden beri,",
+            "Hep seninleyim.", "",
             "---", "",
             "Aşkın en güzel rengisin sen sevgilim,",
             "Dünyadaki çiçeklerin en güzel kokanısın...",
             "Ellerin öyle sıcak, öyle içten ki sevgilim,",
             "Sen istemesen de insanın sana âşık olası gelir.", "",
             "---", "",
-            "Seninle bir ömrüm olsun,", "Seninle unutulmaz zamanlarım...",
-            "Sana tutsak gönlüm olsun,", "Bedenimden çıksa anlarım.",
-            "Her şeyde sen varsın,", "Baktığım her yönde sen...",
-            "Kıyamet kopsun varsın,", "Cehennemim, cennetim sen...", "",
+            "Seninle bir ömrüm olsun,",
+            "Seninle unutulmaz zamanlarım...",
+            "Sana tutsak gönlüm olsun,",
+            "Bedenimden çıksa anlarım.",
+            "Her şeyde sen varsın,",
+            "Baktığım her yönde sen...",
+            "Kıyamet kopsun varsın,",
+            "Cehennemim, cennetim sen...", "",
             "SENİ ÇOK SEVİYORUM KARİCİM ❤️"
         ];
 
@@ -145,37 +154,28 @@
             if (lIdx < lines.length) {
                 if (cIdx < lines[lIdx].length) {
                     t.innerHTML += lines[lIdx].charAt(cIdx);
-                    cIdx++; setTimeout(type, 50);
+                    cIdx++; setTimeout(type, 45);
                 } else {
                     t.innerHTML += "<br>";
-                    lIdx++; cIdx = 0; setTimeout(type, 700);
+                    lIdx++; cIdx = 0; setTimeout(type, 800);
                     const m = document.getElementById('main-content');
                     m.scrollTop = m.scrollHeight;
                 }
             }
         }
 
-        function start() {
+        function startSurprise() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
 
             if (u === "karicim" && p === "071225") {
-                // Şarkıyı başlat
                 const frame = document.getElementById('yt-player');
                 frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 
                 document.getElementById('login-overlay').style.display = 'none';
-                
-                const g = document.getElementById('gif-container');
-                g.style.display = 'block';
-                setTimeout(() => g.style.opacity = '1', 100);
-
-                setTimeout(() => {
-                    g.style.display = 'none';
-                    const mc = document.getElementById('main-content');
-                    mc.style.display = 'block';
-                    setTimeout(() => { mc.style.opacity = '1'; type(); }, 100);
-                }, 4000);
+                const mc = document.getElementById('main-content');
+                mc.style.display = 'block';
+                setTimeout(() => { mc.style.opacity = '1'; type(); }, 100);
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
