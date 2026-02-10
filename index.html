@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> M ♾ ᵕ̈♡︎💍˚✩ N❤️</title>
+    <title>M ♾ ᵕ̈♡︎💍˚✩ N❤️</title>
     <style>
         body {
             margin: 0; padding: 0;
@@ -13,16 +13,18 @@
             min-height: 100vh; overflow: hidden;
         }
 
-        /* ARKA PLAN KALP YILDIZ YAĞMURU ANIMASYONU */
+        /* ARKA PLAN KALP VE YILDIZ ANİMASYONU */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
         }
-        .heart-particle {
-            position: absolute; color: #ff1744; font-size: 20px;
-            text-shadow: 0 0 10px #ff1744; 
+        .particle {
+            position: absolute;
             animation: fly 5s linear infinite; opacity: 0;
         }
+        .heart { color: #ff1744; text-shadow: 0 0 10px #ff1744; font-size: 20px; }
+        .star { color: #fff; text-shadow: 0 0 15px #fff; font-size: 15px; }
+
         @keyframes fly {
             0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
             10% { opacity: 1; }
@@ -51,22 +53,49 @@
             border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%;
         }
 
-        /* ANA İÇERİK (Yazılar Okunur Hale Getirildi) */
+        /* ANA İÇERİK */
         #main-content {
-            display: none; z-index: 10; max-width: 700px; width: 90%;
-            text-align: center; padding: 30px; opacity: 0; transition: 1.5s;
-            max-height: 90vh; overflow-y: auto;
-            background: rgba(0, 0, 0, 0.6); border-radius: 20px;
+            display: none; z-index: 10; max-width: 750px; width: 95%;
+            text-align: center; padding: 20px; opacity: 0; transition: 1.5s;
+            max-height: 95vh; overflow-y: auto;
+            background: rgba(0, 0, 0, 0.7); border-radius: 30px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255, 23, 68, 0.3);
         }
         .typewriter-container { 
-            font-size: 1.4em; /* Yazılar büyütüldü */
-            line-height: 1.8; 
+            font-size: 1.3em; 
+            line-height: 1.6; 
             color: #ffffff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            margin-bottom: 30px;
         }
-        .timer { 
-            font-size: 1.2em; margin-top: 40px; color: #ff1744; 
-            border-top: 1px solid #ff1744; padding-top: 20px; font-weight: bold;
+
+        /* YENİ SAYAÇ TEMASI (KARTLI SİSTEM) */
+        .timer-title {
+            color: #ff1744; font-size: 1.1em; margin-bottom: 15px; font-weight: bold;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .timer-grid {
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+        }
+        .time-box {
+            background: rgba(255, 23, 68, 0.1);
+            border: 1px solid #ff1744;
+            border-radius: 12px;
+            padding: 10px;
+            min-width: 70px;
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.2);
+        }
+        .time-box span {
+            display: block;
+            font-size: 1.8em;
+            font-weight: 900;
+            color: #fff;
+        }
+        .time-box label {
+            font-size: 0.7em;
+            color: #ff1744;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         /* VİDEO GİZLİ */
@@ -79,7 +108,7 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744;">Sana Özel ❤️</h2>
+            <h2 style="color: #ff1744;">HOŞ GELDİN KARİM❤️⭐</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
@@ -89,7 +118,14 @@
 
     <div id="main-content">
         <div id="text-target" class="typewriter-container"></div>
-        <div id="timer" class="timer"></div>
+        
+        <div class="timer-title">Sonsuzluğa Giden Yolculuğumuz</div>
+        <div id="timer" class="timer-grid">
+            <div class="time-box"><span id="days">0</span><label>Gün</label></div>
+            <div class="time-box"><span id="hours">0</span><label>Saat</label></div>
+            <div class="time-box"><span id="minutes">0</span><label>Dakika</label></div>
+            <div class="time-box"><span id="seconds">0</span><label>Saniye</label></div>
+        </div>
     </div>
 
     <div id="video-wrap">
@@ -99,38 +135,36 @@
     </div>
 
     <script>
-        // Kalp Animasyonu
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️'; heart.classList.add('heart-particle');
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            document.getElementById('hearts-bg').appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+        function createParticle() {
+            const container = document.getElementById('hearts-bg');
+            if(!container) return;
+            const particle = document.createElement('div');
+            const isStar = Math.random() > 0.5;
+            particle.innerHTML = isStar ? '⭐' : '❤️';
+            particle.classList.add('particle');
+            particle.classList.add(isStar ? 'star' : 'heart');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            container.appendChild(particle);
+            setTimeout(() => particle.remove(), 5000);
         }
-        setInterval(createHeart, 300);
+        setInterval(createParticle, 250);
 
         const lines = [
-        "Gökyüzünde ne kadar yıldız varsa,",
-            "Hepsine senin ismini verdim...",
-            "",
+            "Gökyüzünde ne kadar yıldız varsa,",
+            "Hepsine senin ismini verdim...", "",
             "Sen benim en parlak yıldızımsın,",
             "Karanlık gecelerimi aydınlatan,",
-            "Yolumu bulmamı sağlayan kutup yıldızım...",
-            "",
-            "---",
-            "",
+            "Yolumu bulmamı sağlayan kutup yıldızım...", "",
+            "---", "",
             "Dudaklarında baharın kokusu,",
             "Gözlerinde sonsuzluğun huzuru var.",
             "Seninle geçen her saniye,",
-            "Bir ömre bedel sevgilim.",
-            "",
-            "---",
-            "",
+            "Bir ömre bedel sevgilim.", "",
+            "---", "",
             "İyi ki varsın,",
             "İyi ki benimlesin.",
-            "Sonsuza dek, yıldızların altında...",
-            "",
+            "Sonsuza dek, yıldızların altında...", "",
             "SENİ ÇOK SEVİYORUM ❤️"
         ];
 
@@ -153,11 +187,9 @@
         function startSurprise() {
             const u = document.getElementById('username').value.toLowerCase().trim();
             const p = document.getElementById('password').value.trim();
-
             if (u === "karicim" && p === "071225") {
                 const frame = document.getElementById('yt-player');
                 frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-
                 document.getElementById('login-overlay').style.display = 'none';
                 const mc = document.getElementById('main-content');
                 mc.style.display = 'block';
@@ -170,13 +202,11 @@
         const startD = new Date(2025, 11, 7); 
         setInterval(() => {
             const diff = new Date() - startD;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const m = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('timer').innerHTML = `${d} Gün, ${h} Saat, ${m} Dakikadır Seninleyim...`;
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+            document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
         }, 1000);
     </script>
 </body>
 </html>
-
-
