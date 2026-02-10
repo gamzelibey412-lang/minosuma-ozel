@@ -69,13 +69,14 @@
             margin-bottom: 30px;
         }
 
-        /* YENİ SAYAÇ TEMASI (KARTLI SİSTEM) */
+        /* SAYAÇ TEMASI */
         .timer-title {
             color: #ff1744; font-size: 1.1em; margin-bottom: 15px; font-weight: bold;
             letter-spacing: 2px; text-transform: uppercase;
         }
         .timer-grid {
             display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         .time-box {
             background: rgba(255, 23, 68, 0.1);
@@ -98,6 +99,17 @@
             font-weight: bold;
         }
 
+        /* "SENİNLEYİM" YAZISI */
+        .with-you-text {
+            font-size: 1.5em;
+            color: #fff;
+            font-style: italic;
+            font-weight: 300;
+            text-shadow: 0 0 10px #ff1744;
+            margin-top: 10px;
+            letter-spacing: 3px;
+        }
+
         /* VİDEO GİZLİ */
         #video-wrap { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     </style>
@@ -108,7 +120,7 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744;">HOŞ GELDİN KARİM❤️⭐</h2>
+            <h2 style="color: #ff1744;">HOŞ GELDİN KARİCİM ❤️⭐</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
@@ -126,6 +138,7 @@
             <div class="time-box"><span id="minutes">0</span><label>Dakika</label></div>
             <div class="time-box"><span id="seconds">0</span><label>Saniye</label></div>
         </div>
+        <div class="with-you-text">...seninleyim</div>
     </div>
 
     <div id="video-wrap">
