@@ -8,12 +8,26 @@
         body {
             margin: 0; padding: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #000; color: #fff;
+            background-color: #000;
+            /* ARKA PLAN FOTOĞRAFI AYARI */
+            background-image: url('arka-plan.jpg'); /* Fotoğrafın adı bu olmalı */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden;
         }
 
-        /* ARKA PLAN KALP VE YILDIZ ANİMASYONU */
+        /* KARARTMA KATMANI (Fotoğrafın üzerine yazıların okunması için) */
+        body::before {
+            content: "";
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Fotoğrafı %60 karartır */
+            z-index: -1;
+        }
+
+        /* ANİMASYON KATMANI */
         .hearts-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
@@ -39,7 +53,7 @@
             align-items: center; z-index: 999;
         }
         .login-box {
-            background: rgba(10, 10, 10, 0.9); padding: 40px; 
+            background: rgba(10, 10, 10, 0.95); padding: 40px; 
             border: 2px solid #ff1744; border-radius: 20px; 
             text-align: center; box-shadow: 0 0 30px #ff1744;
         }
@@ -56,17 +70,14 @@
         /* ANA İÇERİK */
         #main-content {
             display: none; z-index: 10; max-width: 750px; width: 95%;
-            text-align: center; padding: 20px; opacity: 0; transition: 1.5s;
-            max-height: 95vh; overflow-y: auto;
-            background: rgba(0, 0, 0, 0.7); border-radius: 30px;
-            backdrop-filter: blur(5px); border: 1px solid rgba(255, 23, 68, 0.3);
+            text-align: center; padding: 25px; opacity: 0; transition: 1.5s;
+            max-height: 90vh; overflow-y: auto;
+            background: rgba(0, 0, 0, 0.5); border-radius: 30px;
+            backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .typewriter-container { 
-            font-size: 1.3em; 
-            line-height: 1.6; 
-            color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,1);
-            margin-bottom: 30px;
+            font-size: 1.3em; line-height: 1.6; color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0,0,0,1); margin-bottom: 30px;
         }
 
         /* SAYAÇ TEMASI */
@@ -76,38 +87,19 @@
         }
         .timer-grid {
             display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .time-box {
-            background: rgba(255, 23, 68, 0.1);
-            border: 1px solid #ff1744;
-            border-radius: 12px;
-            padding: 10px;
-            min-width: 70px;
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.2);
+            background: rgba(255, 23, 68, 0.2); border: 1px solid #ff1744;
+            border-radius: 12px; padding: 10px; min-width: 70px;
+            box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
         }
-        .time-box span {
-            display: block;
-            font-size: 1.8em;
-            font-weight: 900;
-            color: #fff;
-        }
-        .time-box label {
-            font-size: 0.7em;
-            color: #ff1744;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+        .time-box span { display: block; font-size: 1.8em; font-weight: 900; color: #fff; }
+        .time-box label { font-size: 0.7em; color: #ff1744; text-transform: uppercase; font-weight: bold; }
 
-        /* "SENİNLEYİM" YAZISI */
         .with-you-text {
-            font-size: 1.5em;
-            color: #fff;
-            font-style: italic;
-            font-weight: 300;
-            text-shadow: 0 0 10px #ff1744;
-            margin-top: 10px;
-            letter-spacing: 3px;
+            font-size: 1.6em; color: #fff; font-style: italic;
+            text-shadow: 0 0 15px #ff1744; margin-top: 10px; letter-spacing: 3px;
         }
 
         /* VİDEO GİZLİ */
@@ -120,7 +112,7 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744;">HOŞ GELDİN KARİCİM ❤️⭐</h2>
+            <h2 style="color: #ff1744;">Sana Özel ❤️⭐</h2>
             <input type="text" id="username" placeholder="Kullanıcı Adı">
             <input type="password" id="password" placeholder="Şifremiz">
             <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
@@ -138,7 +130,7 @@
             <div class="time-box"><span id="minutes">0</span><label>Dakika</label></div>
             <div class="time-box"><span id="seconds">0</span><label>Saniye</label></div>
         </div>
-        <div class="with-you-text">...seninleyim</div>
+        <div class="with-you-text">...seninleyim ❤️ </div>
     </div>
 
     <div id="video-wrap">
@@ -154,8 +146,7 @@
             const particle = document.createElement('div');
             const isStar = Math.random() > 0.5;
             particle.innerHTML = isStar ? '⭐' : '❤️';
-            particle.classList.add('particle');
-            particle.classList.add(isStar ? 'star' : 'heart');
+            particle.classList.add('particle', isStar ? 'star' : 'heart');
             particle.style.left = Math.random() * 100 + 'vw';
             particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
             container.appendChild(particle);
