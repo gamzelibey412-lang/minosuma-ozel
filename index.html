@@ -1,420 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sadece Bizim İçin ❤️⭐</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sana Özel ❤️</title>
     <style>
-        /* TEMEL AYARLAR */
-        * { box-sizing: border-box; }
-        body {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000;
-            /* ARKA PLAN AYARLARI - 'arka-plan.jpg' dosyanızın aynı klasörde olduğundan emin olun */
-            background-image: url('arka-plan.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #fff;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* FOTOĞRAFIN ÜZERİNE KARARTMA KATMANI */
-        body::before {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); 
-            z-index: -1;
-        }
-
-        /* KALP VE YILDIZ ANİMASYONU */
-        .hearts-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
-        }
-        .particle {
-            position: absolute;
-            animation: fly 5s linear infinite; opacity: 0;
-        }
-        .heart { color: #ff1744; text-shadow: 0 0 10px #ff1744; font-size: 20px; }
-        .star { color: #fff; text-shadow: 0 0 15px #fff; font-size: 15px; }
-
-        @keyframes fly {
-            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-        }
-
-        /* GİRİŞ PANELİ */
-        #login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: flex; justify-content: center;
-            align-items: center; z-index: 1000;
-        }
-        .login-box {
-            background: rgba(15, 15, 15, 0.98); padding: 30px; 
-            border: 2px solid #ff1744; border-radius: 20px; 
-            text-align: center; box-shadow: 0 0 40px rgba(255, 23, 68, 0.6);
-            width: 90%; max-width: 350px; /* Mobil uyumlu genişlik */
-        }
-        input {
-            display: block; width: 100%; padding: 14px; margin: 15px auto;
-            background: #1a1a1a; border: 1px solid #ff1744; color: #fff; 
-            border-radius: 12px; outline: none; text-align: center; font-size: 16px;
-        }
-        .login-btn {
-            background: #ff1744; color: #fff; border: none; padding: 14px;
-            border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%;
-            font-size: 16px; transition: background 0.3s, transform 0.1s;
-        }
-        .login-btn:active { transform: scale(0.98); } /* Mobil tıklama hissi */
-
-        /* YENİ: DEV "SENİ ÇOK SEVİYORUM" EKRANI (MOBİL UYUMLU) */
-        #big-love-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; display: none; justify-content: center;
-            align-items: center; z-index: 999; opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        #big-love-text {
-            color: #ff1744;
-            font-size: 12vw; /* Ekrana göre ölçeklenen yazı boyutu */
-            font-weight: 900;
-            text-transform: uppercase;
-            text-align: center;
-            text-shadow: 0 0 30px rgba(255, 23, 68, 0.8), 0 0 60px rgba(255, 23, 68, 0.4);
-            letter-spacing: 2px;
-            line-height: 1.1;
-            padding: 20px;
-            animation: love-pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes love-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-        }
-
-        /* ANA İÇERİK KUTUSU */
-        #main-content {
-            display: none; z-index: 10; max-width: 800px; width: 90%;
-            text-align: center; padding: 25px 15px; opacity: 0;
-            transition: opacity 2s ease-in-out;
-            max-height: 85vh; overflow-y: auto;
-            background: rgba(0, 0, 0, 0.5); border-radius: 30px;
-            backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* ŞİİR ALANI (MOBİL İÇİN AYARLANDI) */
-        .typewriter-container { 
-            font-size: 1.2em; line-height: 1.6; color: #fdfdfd;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8); margin-bottom: 35px;
-            font-weight: 300;
-            text-align: center;
-            padding: 0 10px;
-        }
-        @media (min-width: 600px) { .typewriter-container { font-size: 1.4em; } }
-
-        /* SAYAÇ TASARIMI (MOBİL UYUMLU GRİD) */
-        .timer-title {
-            color: #ff1744; font-size: 0.9em; margin-bottom: 15px; 
-            font-weight: bold; letter-spacing: 2px; text-transform: uppercase;
-        }
-        .timer-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Mobilde 2x2 */
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-            padding: 0 20px;
-        }
-        @media (min-width: 480px) {
-            .timer-grid { grid-template-columns: repeat(4, 1fr); } /* Tablet/Masaüstü 1x4 */
-        }
-
-        .time-box {
-            background: rgba(255, 23, 68, 0.1); border: 1px solid rgba(255, 23, 68, 0.5);
-            border-radius: 12px; padding: 10px;
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.15);
-        }
-        .time-box span { display: block; font-size: 1.8em; font-weight: 900; color: #fff; }
-        .time-box label { font-size: 0.7em; color: #ff1744; text-transform: uppercase; font-weight: bold; }
-
-        .with-you-text {
-            font-size: 1.5em; color: #fff; font-style: italic;
-            text-shadow: 0 0 15px #ff1744; margin-top: 15px; letter-spacing: 3px;
-            animation: pulse 2.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; } 50% { opacity: 1; }
-        }
-
-        /* YOUTUBE PLAYER GİZLİ */
-        #video-wrap { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100; display: flex; justify-content: center; align-items: center; }
+        .login-box { border: 2px solid #ff1744; padding: 30px; border-radius: 20px; text-align: center; width: 80%; max-width: 300px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #ff1744; background: #111; color: #fff; text-align: center; }
+        button { width: 100%; padding: 12px; border-radius: 10px; background: #ff1744; color: #fff; border: none; font-weight: bold; cursor: pointer; }
+        #big-love { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; justify-content: center; align-items: center; z-index: 50; color: #ff1744; font-size: 10vw; font-weight: 900; text-align: center; }
+        #main-content { display: none; width: 90%; max-width: 600px; text-align: center; z-index: 10; max-height: 90vh; overflow-y: auto; padding: 20px; }
+        .typewriter { font-size: 1.2em; line-height: 1.6; margin-bottom: 30px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 20px; }
+        .time-box { background: rgba(255, 23, 68, 0.2); padding: 10px; border-radius: 10px; border: 1px solid #ff1744; }
+        .time-box span { display: block; font-size: 1.2em; font-weight: bold; }
+        .time-box label { font-size: 0.6em; color: #ff1744; }
+        .heart { position: absolute; color: #ff1744; animation: fly 5s linear infinite; }
+        @keyframes fly { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh); opacity: 0; } }
     </style>
 </head>
 <body>
-
-    <div class="hearts-bg" id="hearts-bg"></div>
-
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color: #ff1744; margin-bottom: 15px; font-size: 22px;">Sana Özel ❤️⭐</h2>
-            <input type="text" id="username" placeholder="Kullanıcı Adı" autocomplete="off" autocapitalize="off">
-            <input type="password" id="password" placeholder="Şifremiz" autocomplete="off">
-            <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px; font-size: 14px;">Hatalı Giriş Bilgisi!</p>
+            <h2 style="color:#ff1744">Sana Özel ❤️</h2>
+            <input type="text" id="u" placeholder="Kullanıcı Adı">
+            <input type="password" id="p" placeholder="Şifremiz">
+            <button onclick="start()">Giriş Yap</button>
         </div>
     </div>
 
-    <div id="big-love-overlay">
-        <div id="big-love-text">SENİ ÇOK SEVİYORUM</div>
-    </div>
+    <div id="big-love">SENİ ÇOK SEVİYORUM</div>
 
     <div id="main-content">
-        <div id="text-target" class="typewriter-container"></div>
-        
-        <div class="timer-title">Sonsuzluğa Giden Yolculuğumuz</div>
-        <div id="timer" class="timer-grid">
-            <div class="time-box"><span id="days">0</span><label>Gün</label></div>
-            <div class="time-box"><span id="hours">0</span><label>Saat</label></div>
-            <div class="time-box"><span id="minutes">0</span><label>Dakika</label></div>
-            <div class="time-box"><span id="seconds">0</span><label>Saniye</label></div>
+        <div id="text-target" class="typewriter"></div>
+        <div class="timer-grid">
+            <div class="time-box"><span id="days">0</span><label>GÜN</label></div>
+            <div class="time-box"><span id="hours">0</span><label>SAAT</label></div>
+            <div class="time-box"><span id="minutes">0</span><label>DAK</label></div>
+            <div class="time-box"><span id="seconds">0</span><label>SN</label></div>
         </div>
-        <div class="with-you-text">...benimlesin</div>
-    </div>
-
-    <div id="video-wrap">
-        <iframe id="yt-player" width="10" height="10" 
-            src="https://www.youtube.com/embed/ovgIZCTb37o?enablejsapi=1&autoplay=0" 
-            allow="autoplay"></iframe>
+        <div style="margin-top:20px; font-style:italic; color:#ff1744">...benimlesin</div>
     </div>
 
     <script>
-        // Kalp ve Yıldız Üretici (Mobil uyumlu sayı düşürüldü)
-        function createParticle() {
-            const container = document.getElementById('hearts-bg');
-            if(!container) return;
-            const particle = document.createElement('div');
-            const isStar = Math.random() > 0.4; // Yıldız oranı biraz artırıldı
-            
-            particle.innerHTML = isStar ? '⭐' : '❤️';
-            particle.classList.add('particle', isStar ? 'star' : 'heart');
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            
-            container.appendChild(particle);
-            setTimeout(() => particle.remove(), 5000);
+        function createHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = '❤️'; h.className = 'heart';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
         }
-        setInterval(createParticle, 300); // Üretim hızı mobilde kasmaması için yavaşlatıldı
+        setInterval(createHeart, 400);
 
-        // ŞİİR VERİSİ
         const lines = [
-            "Dünyanın en güzel çiçeğine...",
-            "Varlığınla hayatıma anlam katan,",
-            "Gücüyle, zarafetiyle hayran bırakan sevgilim.", "",
-            "Sen sadece bugün değil,",
-            "Aldığım her nefeste en değerlisin.", "",
-            "---", "",
-            "Ellerinle dünyayı güzelleştiren,",
-            "Gülüşünle karanlıkları silen kadın...",
-            "Yüreğinin saflığı rehberim,",
-            "Sevgin ise en büyük zenginliğim olsun.", "",
-            "---", "",
-            "8 Mart Dünya Kadınlar Günün Kutlu Olsun,",
-            "İyi ki benimlesin, iyi ki varsın.",
-            "Yıldızların altında, bir ömre boyu...", "",
-            "SENİ ÇOK SEVİYORUM ❤️"
+            "Dünyanın en güzel çiçeğine...", "Varlığınla hayatıma anlam katan,", "Gücüyle, zarafetiyle hayran bırakan sevgilim.", "",
+            "Sen sadece bugün değil,", "Aldığım her nefeste en değerlisin.", "", "---", "",
+            "Ellerinle dünyayı güzelleştiren,", "Gülüşünle karanlıkları silen kadın...", "Yüreğinin saflığı rehberim,", "Sevgin ise en büyük zenginliğim olsun.", "", "---", "",
+            "8 Mart Dünya Kadınlar Günün Kutlu Olsun,", "İyi ki benimlesin, iyi ki varsın.", "Yıldızların altında, bir ömre boyu...", "", "SENİ ÇOK SEVİYORUM ❤️"
         ];
 
-        let lIdx = 0; let cIdx = 0;
-        const mainContent = document.getElementById('main-content');
-        
+        let lIdx = 0, cIdx = 0;
         function type() {
             const t = document.getElementById('text-target');
             if (lIdx < lines.length) {
                 if (cIdx < lines[lIdx].length) {
                     t.innerHTML += lines[lIdx].charAt(cIdx);
-                    cIdx++; setTimeout(type, 55); // Biraz yavaşlatıldı (daha duygusal)
+                    cIdx++; setTimeout(type, 50);
                 } else {
-                    t.innerHTML += "<br>";
-                    lIdx++; cIdx = 0; setTimeout(type, 1000);
-                    // Mobilde daktilo yazarken otomatik aşağı kaydır
-                    mainContent.scrollTop = mainContent.scrollHeight;
+                    t.innerHTML += "<br>"; lIdx++; cIdx = 0; setTimeout(type, 800);
                 }
             }
         }
 
-        // Giriş Kontrolü ve Sürpriz Akışı
-        function startSurprise() {
-            const u = document.getElementById('username').value.toLowerCase().trim();
-            const p = document.getElementById('password').value.trim();
-
-            // Giriş Bilgileri: karicim / 071225
-            if (u === "karicim" && p === "071225") {
-                // 1. Müziği Başlat
-                const frame = document.getElementById('yt-player');
-                frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-
-                // 2. Giriş panelini kaldır
+        function start() {
+            const user = document.getElementById('u').value.toLowerCase().trim();
+            const pass = document.getElementById('p').value.trim();
+            if(user === "karicim" && pass === "071225") {
                 document.getElementById('login-overlay').style.display = 'none';
-
-                // 3. YENİ: Dev "SENİ ÇOK SEVİYORUM" yazısını göster
-                const loveOverlay = document.getElementById('big-love-overlay');
-                loveOverlay.style.display = 'flex';
-                setTimeout(() => loveOverlay.style.opacity = '1', 50); // Fade in
-
-                // 4. Yazıyı 3 saniye sonra kaldır ve şiiri başlat
+                const bl = document.getElementById('big-love');
+                bl.style.display = 'flex';
                 setTimeout(() => {
-                    loveOverlay.style.opacity = '0'; // Fade out
-                    setTimeout(() => {
-                        loveOverlay.style.display = 'none';
-                        
-                        // 5. Ana şiir içeriğini göster ve daktiloyu başlat
-                        mainContent.style.display = 'block';
-                        setTimeout(() => { 
-                            mainContent.style.opacity = '1'; 
-                            type(); 
-                        }, 100);
-                    }, 1000); // Fade out süresi (1s)
-                }, 3000); // Yazının ekranda tam kalma süresi (3s)
-
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-                // Hata durumunda şifreyi temizle
-                document.getElementById('password').value = '';
-            }
+                    bl.style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    type();
+                }, 3000);
+            } else { alert("Hatalı giriş!"); }
         }
 
-        // Sayaç Mantığı (Başlangıç: 7 Aralık 2025)
-        const startD = new Date(2025, 11, 7); 
-        function updateTimer() {
-            const diff = new Date() - startD;
-            
-            if (diff < 0) return; // Gelecek bir tarihse sayma
-
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
-            document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer(); // Sayfa yüklenince hemen çalıştır
-    </script>
-</body>
-</html>
-
-    <div class="hearts-bg" id="hearts-bg"></div>
-
-    <div id="login-overlay">
-        <div class="login-box">
-            <h2 style="color: #ff1744;">HOŞ GELDİN KARİCİM ❤️⭐</h2>
-            <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <input type="password" id="password" placeholder="Şifremiz">
-            <button class="login-btn" onclick="startSurprise()">Sürprizi Başlat</button>
-            <p id="error-msg" style="color: #ff1744; display: none; margin-top:15px;">Hatalı Giriş!</p>
-        </div>
-    </div>
-
-    <div id="main-content">
-        <div id="text-target" class="typewriter-container"></div>
-        
-        <div class="timer-title">Sonsuzluğa Giden Yolculuğumuz</div>
-        <div id="timer" class="timer-grid">
-            <div class="time-box"><span id="days">0</span><label>Gün</label></div>
-            <div class="time-box"><span id="hours">0</span><label>Saat</label></div>
-            <div class="time-box"><span id="minutes">0</span><label>Dakika</label></div>
-            <div class="time-box"><span id="seconds">0</span><label>Saniye</label></div>
-        </div>
-        <div class="with-you-text">...seninleyim ❤️ </div>
-    </div>
-
-    <div id="video-wrap">
-        <iframe id="yt-player" width="100" height="100" 
-            src="https://www.youtube.com/embed/ovgIZCTb37o?enablejsapi=1&autoplay=0" 
-            allow="autoplay"></iframe>
-    </div>
-
-    <script>
-        function createParticle() {
-            const container = document.getElementById('hearts-bg');
-            if(!container) return;
-            const particle = document.createElement('div');
-            const isStar = Math.random() > 0.5;
-            particle.innerHTML = isStar ? '⭐' : '❤️';
-            particle.classList.add('particle', isStar ? 'star' : 'heart');
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            container.appendChild(particle);
-            setTimeout(() => particle.remove(), 5000);
-        }
-        setInterval(createParticle, 250);
-
-        const lines = ["Dünyanın en güzel çiçeğine...
-Varlığınla hayatıma anlam katan,
-Gücüyle, zarafetiyle hayran bırakan sevgilim.
-Sen sadece bugün değil,
-Aldığım her nefeste en değerlisin.
----
-Ellerinle dünyayı güzelleştiren,
-Gülüşünle karanlıkları silen kadın...
-Yüreğinin saflığı rehberim,
-Sevgin ise en büyük zenginliğim olsun.
----
-8 Mart Dünya Kadınlar Günün Kutlu Olsun,
-İyi ki benimlesin, iyi ki varsın.
-Yıldızların altında, bir ömre boyu...
-SENİ ÇOK SEVİYORUM ❤️
-...benimlesin"
-        ];
-
-        let lIdx = 0; let cIdx = 0;
-        function type() {
-            const t = document.getElementById('text-target');
-            if (lIdx < lines.length) {
-                if (cIdx < lines[lIdx].length) {
-                    t.innerHTML += lines[lIdx].charAt(cIdx);
-                    cIdx++; setTimeout(type, 45);
-                } else {
-                    t.innerHTML += "<br>";
-                    lIdx++; cIdx = 0; setTimeout(type, 800);
-                    const m = document.getElementById('main-content');
-                    m.scrollTop = m.scrollHeight;
-                }
-            }
-        }
-
-        function startSurprise() {
-            const u = document.getElementById('username').value.toLowerCase().trim();
-            const p = document.getElementById('password').value.trim();
-            if (u === "karicim" && p === "071225") {
-                const frame = document.getElementById('yt-player');
-                frame.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-                document.getElementById('login-overlay').style.display = 'none';
-                const mc = document.getElementById('main-content');
-                mc.style.display = 'block';
-                setTimeout(() => { mc.style.opacity = '1'; type(); }, 100);
-            } else {
-                document.getElementById('error-msg').style.display = 'block';
-            }
-        }
-
-        const startD = new Date(2025, 11, 7); 
+        const startD = new Date(2025, 11, 7);
         setInterval(() => {
             const diff = new Date() - startD;
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+            document.getElementById('days').innerText = Math.floor(diff / 86400000);
+            document.getElementById('hours').innerText = Math.floor((diff / 3600000) % 24);
+            document.getElementById('minutes').innerText = Math.floor((diff / 60000) % 60);
             document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
         }, 1000);
     </script>
 </body>
 </html>
-
-
-
-
